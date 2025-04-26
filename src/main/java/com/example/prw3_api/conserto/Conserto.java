@@ -26,13 +26,27 @@ public class Conserto {
 
     @Embedded
     private Mecanico mecanico;
+    @Embedded
     private Veiculo veiculo;
 
+    private Boolean ativo;
+
+
     public Conserto(DadosCadastroConserto dados){
+        this.ativo = true;
         this.dataEntrada = dados.data_entrada();
         this.dataSaida = dados.data_saida();
         this.veiculo = new Veiculo(dados.veiculo());
         this.mecanico = new Mecanico(dados.mecanico());
+    }
+
+    public void atualizarInformacoes(DadosAtualizacaoConserto dados){
+        if(dados.data_saida() != null) this.dataSaida = dados.data_saida();
+        if(dados.mecanico() != null)  this.mecanico.atualizarInformacoes(dados.mecanico());
+    }
+
+    public void excluir(){
+        this.ativo = false;
     }
 
 }

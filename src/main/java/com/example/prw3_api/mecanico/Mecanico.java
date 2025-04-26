@@ -15,10 +15,15 @@ public class Mecanico {
     private String nome;
     private Integer experiencia;
 
-    public Mecanico(DadosCadastroMecanico dados){
+    public Mecanico(DadosMecanico dados){
 
         this.nome = dados.nome();
         this.experiencia = dados.experiencia();
+    }
+
+    public void atualizarInformacoes(DadosMecanico dados){
+        if(dados.nome() != null) this.nome = dados.nome();
+        if(dados.experiencia() != null) this.experiencia = dados.experiencia();
     }
 
 }
