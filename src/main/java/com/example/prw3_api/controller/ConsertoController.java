@@ -4,6 +4,7 @@ package com.example.prw3_api.controller;
 import com.example.prw3_api.conserto.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +20,11 @@ import java.util.Optional;
 @RequestMapping("consertos")
 public class ConsertoController {
 
-    @Autowired
-    private ConsertoRepository repository;
+    private final ConsertoRepository repository;
+
+    public ConsertoController(ConsertoRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping
     @Transactional
