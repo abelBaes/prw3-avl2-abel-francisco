@@ -1,6 +1,9 @@
 package com.example.prw3_api.controller;
 
 import com.example.prw3_api.usuario.DadosAutenticacao;
+import com.example.prw3_api.usuario.Usuario;
+import com.example.prw3_api.util.security.DadosTokenJWT;
+import com.example.prw3_api.util.security.PW3TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutenticacaoController {
 
     private final AuthenticationManager manager;
+    private final PW3TokenService tokenService;
 
-    public AutenticacaoController(AuthenticationManager manager) {
+    public AutenticacaoController(AuthenticationManager manager, PW3TokenService tokenService) {
         this.manager = manager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
@@ -25,7 +30,8 @@ public class AutenticacaoController {
 
         var token = new UsernamePasswordAuthenticationToken( dados.login(), dados.senha() );
         var authentication = manager.authenticate(token);
-        return ResponseEntity.ok().build();
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        return ResponseEntity.ok( new DadosTokenJWT(tokenJWT));
 
     }
 
